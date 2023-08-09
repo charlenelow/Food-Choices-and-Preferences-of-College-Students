@@ -5,7 +5,7 @@ My aim is to demonstrate the following skills: Data cleaning, organising, transf
 ## The Data
 This dataset includes information on food choices, nutrition, preferences, childhood favourites, and other information from college students. There are 126 responses from students. Data is raw and uncleaned.
 ### Acknowledgements
-This dataset was taken from Borapajo from an open kaggel dataset. 
+This dataset was taken from [Borapajo](https://www.kaggle.com/datasets/borapajo/food-choices?resource=download) from an open kaggel dataset
 
 ## The Project
 ### Goals
