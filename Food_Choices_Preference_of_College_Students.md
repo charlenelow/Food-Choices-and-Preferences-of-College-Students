@@ -677,7 +677,7 @@ ggplot(data=weight_female)+
   geom_bar(mapping= aes(x=exercise, fill=weight_range))+ labs(title="Exercise VS Weight (lbs)", x= "Exercise", y= "Frequency", subtitle= "Female")
 ```
 
-![](Food_Choices_Preference_of_College_Students_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
+![](Food_Choices_Preference_of_College_Students/unnamed-chunk-19-1.png)<!-- -->
 
 Among female students, individuals in the lowest weight range 110 - 129
 lbs mostly exercise daily while a small group exercises at least 2 - 3
