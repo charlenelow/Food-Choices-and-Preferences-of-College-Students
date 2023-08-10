@@ -1,3 +1,4 @@
+theme: jekyll-theme-minimal
 # Food-Choices-and-Preferences-of-College-Students
 Analyzing the Food Choices and Preferences of College Students dataset as my first data anlaytics project. 
 My aim is to demonstrate the following skills: Data cleaning, organising, transformation, analysis and reporting. 
