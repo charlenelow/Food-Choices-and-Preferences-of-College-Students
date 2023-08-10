@@ -3,16 +3,13 @@ Food Choices and Preference of College Students
 Charlene
 2023-08-09
 
-## Loading readr package
+## Loading readr package & Import CSV file
 
 Dataset used for this project was imported using readr package. To do
 so, the tidyverse package which contains readr package was installed and
 loaded.
 
-## Importing CSV file
-
-Note that the `echo = FALSE` parameter was added to the code chunk to
-prevent printing of the R code that generated the plot.
+Import CSV file using read_csv().
 
 ## Data cleaning
 
@@ -677,14 +674,14 @@ ggplot(data=weight_female)+
   geom_bar(mapping= aes(x=exercise, fill=weight_range))+ labs(title="Exercise VS Weight (lbs)", x= "Exercise", y= "Frequency", subtitle= "Female")
 ```
 
-![](Food_Choices_Preference_of_College_Students/unnamed-chunk-19-1.png)<!-- -->
+![](https://github.com/charlenelow/Food-Choices-and-Preferences-of-College-Students/blob/main/unnamed-chunk-19-1.png)'<!-- -->
 
 Among female students, individuals in the lowest weight range 110 - 129
 lbs mostly exercise daily while a small group exercises at least 2 - 3
 times a week. Individuals in the 2nd lowest weight range mostly exercise
 daily or 2 to 3 times a week, while a small group exercises once a week.
 Individuals in 160 - 189 lbs range either exercise daily or just once a
-week and for individuals in \>189 lbs range, most of them exercise
+week and for individuals in >189 lbs range, most of them exercise
 daily.
 
 ``` r
@@ -695,7 +692,7 @@ ggplot(data=weight_male)+
   geom_bar(mapping= aes(x=exercise, fill=weight_range))+ labs(title="Exercise VS Weight (lbs)", x= "Exercise", y= "Frequency", subtitle= "Male")
 ```
 
-![](Food_Choices_Preference_of_College_Students_files/figure-gfm/unnamed-chunk-20-1.png)<!-- -->
+![](https://github.com/charlenelow/Food-Choices-and-Preferences-of-College-Students/blob/main/unnamed-chunk-20-1.png)<!-- -->
 
 Among male students, individuals in the lowest weight range 130 - 159
 lbs exercises daily. Most individuals in the 160 - 189 lbs range
@@ -708,7 +705,7 @@ ggplot(data=frequency_df)+
   geom_bar(mapping=aes (x=eating_out, fill=employment)) + labs(title = "Frequency of Eating Out VS Employment", x ="Eating out", y="Frequency") + theme(axis.text.x = element_text(angle = 45))
 ```
 
-![](Food_Choices_Preference_of_College_Students_files/figure-gfm/unnamed-chunk-21-1.png)<!-- -->
+![](https://github.com/charlenelow/Food-Choices-and-Preferences-of-College-Students/blob/main/unnamed-chunk-21-1.png)<!-- -->
 
 Most college students regardless of their employment status tends to eat
 out 1 - 2 times a week, and only very few eat out everyday.
@@ -720,7 +717,7 @@ ggplot(data=frequency_df)+
   geom_bar(mapping=aes (x=eating_out, fill=income)) + labs(title = "Frequency of Eating Out VS Income", x ="Eating out", y="Frequency") + theme(axis.text.x = element_text(angle = 45))
 ```
 
-![](Food_Choices_Preference_of_College_Students_files/figure-gfm/unnamed-chunk-22-1.png)<!-- -->
+![](https://github.com/charlenelow/Food-Choices-and-Preferences-of-College-Students/blob/main/unnamed-chunk-22-1.png)<!-- -->
 
 There is a similar trend observed here compared to Frequency of eating
 out VS employment where most student regardless of income eats out 1 - 2
@@ -737,7 +734,7 @@ ggplot(data=frequency_df)+
   geom_bar(mapping=aes (x=eating_out, fill=on_off_campus)) + labs(title = "Frequency of Eating Out VS Living on or off Campus", x ="Eating out", y="Frequency") + theme(axis.text.x = element_text(angle = 45))
 ```
 
-![](Food_Choices_Preference_of_College_Students_files/figure-gfm/unnamed-chunk-23-1.png)<!-- -->
+![](https://github.com/charlenelow/Food-Choices-and-Preferences-of-College-Students/blob/main/unnamed-chunk-23-1.png)<!-- -->
 
 There is a similar trend observed for the frequency of eating out VS
 Living on or off campus as the other two factors (employment & income),
@@ -753,7 +750,7 @@ ggplot(data=exercise_df)+
   labs(title="Exercise VS Nutritional checks", x= "Nutritional checks", y="Frequency") + theme(axis.text.x = element_text(angle = 45))
 ```
 
-![](Food_Choices_Preference_of_College_Students_files/figure-gfm/unnamed-chunk-24-1.png)<!-- -->
+![](https://github.com/charlenelow/Food-Choices-and-Preferences-of-College-Students/blob/main/unnamed-chunk-24-1.png)<!-- -->
 
 Generally students who exercises more often tends to check nutritional
 content of the food they consume. This would also make them more
@@ -768,7 +765,7 @@ ggplot(data=exercise_df)+
   labs(title="Exercise VS Veggie consumption", x= "Veggie consumption", y="Frequency") + theme(axis.text.x = element_text(angle = 45))
 ```
 
-![](Food_Choices_Preference_of_College_Students_files/figure-gfm/unnamed-chunk-25-1.png)<!-- -->
+![](https://github.com/charlenelow/Food-Choices-and-Preferences-of-College-Students/blob/main/unnamed-chunk-25-1.png)<!-- -->
 
 The general observation of vegetables consumption in relation to
 frequency of exercising is that students who exercise more regularly are
@@ -785,7 +782,7 @@ ggplot(data=exercise_df)+
   labs(title="Exercise VS Fruit consumption", x= "Fruit consumption", y="Frequency") + theme(axis.text.x = element_text(angle = 45))
 ```
 
-![](Food_Choices_Preference_of_College_Students_files/figure-gfm/unnamed-chunk-26-1.png)<!-- -->
+![](https://github.com/charlenelow/Food-Choices-and-Preferences-of-College-Students/blob/main/unnamed-chunk-26-1.png)<!-- -->
 
 Similar to the observation made for vegetable consumption, students who
 exercise more regularly are likely to consume fruits and there is also a
