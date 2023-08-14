@@ -15,7 +15,7 @@ The questions that i would like to answer from this analysis are as follow:
 - Question 2: Does factors such as: Employment, Income, and Living on or off campus affect the frequency of eating out for college students?
 - Question 3: Does students who exercise regularly more likely to make better food choices?
 ### Findings
-Please refer to [Food_Choices_Preference_of_College_Students.md](https://github.com/charlenelow/Food-Choices-and-Preferences-of-College-Students/blob/main/Food_Choices_Preference_of_College_Students.md) to follow along my analysis. 
+Please refer to [Food_Choices_Preference_of_College_Students.md](https://github.com/charlenelow/Food-Choices-and-Preferences-of-College-Students/blob/main/V2_Food_Choices_Preference_of_College_Students%20.md) to follow along my analysis. 
 
 
 Please check out to me to give me any feedback and comments you have regarding my work!!
