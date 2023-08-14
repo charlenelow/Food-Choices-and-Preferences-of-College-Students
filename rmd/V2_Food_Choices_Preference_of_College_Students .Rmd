@@ -1,0 +1,452 @@
+---
+title: "Food Choices and Preference of College Students"
+author: "Charlene"
+date: "2023-08-09"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Loading readr package
+
+Dataset used for this project was imported using readr package. To do so, the tidyverse package which contains readr package was installed and loaded.
+
+## Importing CSV file
+
+```{r import data, echo=FALSE, message=FALSE}
+food_survey_respond_df <-readr::read_csv(here::here("Data", "food_coded.csv"))
+```
+
+## Data cleaning
+
+#### Preview dataset
+
+Packages required in this step: Here, Skimr, Janitor, dply.
+
+```{r head()}
+head(food_survey_respond_df)
+```
+
+```{r glimpse()}
+dplyr::glimpse(food_survey_respond_df)
+```
+
+```{r colnames()}
+colnames(food_survey_respond_df)
+
+```
+
+## Data Transformation
+
+In this part of the analysis, 3 new dataframes will be created with variables of interest that were required to answer the following questions:
+
+-   Question 1: Does exercising regularly affects weight of an individual?
+
+-   Question 2: Does factors such as: Employment, Income, and Living on or off campus affect the frequency of eating out for college students?
+
+-   Question 3: Does students who exercise regularly more likely to make better food choices?
+
+#### Question 1: Creating new dataframe with variables of interest
+
+In the preview of the food_survey_respond_df, there are 61 variables in this dataset. Not all the variables will be needed in our analysis, therefore, only the variables of interest will be selected and stored in a new dataframe for easy access later.
+
+```{r}
+library(tidyr)
+library(dplyr)
+weight_df<- food_survey_respond_df %>% 
+  select("Gender","exercise","weight") %>% 
+  drop_na()
+
+weight_df %>% 
+  count(weight) # to identify which responds needs cleaning / removing
+
+weight_df %>% 
+  count(Gender) # should have 1 & 2 only. 1= Female, 2 = Male
+
+weight_df %>% 
+  count(exercise)
+```
+
+There are 4 rows in weight that needs cleaning before we can start analysis.
+
+```{r}
+library(stringr)
+weight_df$weight <- str_replace_all(weight_df$weight, "^144 lbs$", "144")
+weight_df$weight <- str_replace_all(weight_df$weight, "^Not sure, 240$", "240")
+
+#Removing Row 3 & row 66
+weight_df<- weight_df[-c(3,66),]
+
+#Double checking the data within weight to make sure we have cleaned up properly
+weight_df %>% 
+  count(weight)
+```
+
+#### Question 1: Replace Integer respond for Gender with String
+
+```{r}
+weight_df <- weight_df %>% 
+  mutate(Gender_new=case_match(
+           Gender,
+           1~'Female',
+           2~'Male'
+         )
+         )
+
+weight_df %>% 
+  count(Gender, Gender_new)
+```
+
+#### Question 1: Replace Integer respond for exercise with String
+
+```{r}
+weight_df <- weight_df %>% 
+  mutate(exercise_new=case_match(
+           exercise,
+           1~"Everyday",
+           2~"2-3 times a week",
+           3~"Once a week",
+           4~"Sometimes",
+           5~"Never"
+         ) 
+         )
+
+weight_df %>% 
+  count(exercise_new, exercise)  
+```
+
+#### Question 1: Replace Integer respond for weight with String
+```{r}
+weight_df <- weight_df %>% 
+   mutate(weight_range = case_when(
+     weight <130 ~'110 - 129 lbs',
+     weight <160 ~ '130 - 159 lbs',
+     weight < 190 ~'160 - 189 lbs',
+     TRUE ~ '>=190 lbs'
+     )
+     )
+weight_df %>% 
+  count(weight_range, weight)
+```
+
+#### Question 2: Creating new dataframe with variables of interest
+
+```{r new dataframe for frequency of eating out & regular exercise leads to making better food choice}
+frequency_df <- food_survey_respond_df %>% 
+  select ("eating_out","employment","income","on_off_campus") %>% 
+  drop_na()
+
+glimpse(frequency_df)
+```
+
+#### Question 2: Replace Integer respond for eating_out with String
+
+```{r}
+frequency_df <- frequency_df %>% 
+  mutate(eating_out_new= case_match(
+    eating_out,
+    1 ~ "Never",
+    2 ~ "1-2 times",
+    3 ~ "2-3 times",
+    4 ~ "3-4 times",
+    5 ~ "Everyday"
+  )
+  )
+frequency_df %>% 
+  count(eating_out_new, eating_out) # checking if above code has been run correctly
+```
+
+#### Question 2: Replace Integer respond for employment with String
+
+```{r}
+frequency_df <- frequency_df %>% 
+  mutate(employment_new = case_match(
+    employment,
+    1 ~ "Full time",
+    2 ~ "Part time",
+    3 ~ "Unemployed"
+  )
+  )
+frequency_df %>% 
+  count(employment_new, employment)
+```
+
+#### Question 2: Replace Integer respond for income with String
+
+```{r}
+frequency_df <- frequency_df %>% 
+  mutate(income_range = case_match(
+    income,
+    1 ~ "less than $15K",
+    2 ~ ">$15K - $30K",
+    3 ~ ">$30K - $50K",
+    4 ~ ">$50K - $70K",
+    5 ~ ">$70K - $100K",
+    6 ~ "more than $100K"
+  )
+  )
+
+frequency_df %>% 
+  count(income, income_range)
+```
+
+#### Question 2: Replace Integer respond for living on and off campus with String
+
+```{r}
+frequency_df <- frequency_df %>% 
+  mutate(living_on_off_campus = case_when(
+    on_off_campus == 1 ~ "On campus",
+    TRUE ~ "Off campus"
+  )
+  ) 
+
+frequency_df %>% 
+  count(on_off_campus, living_on_off_campus)
+
+```
+
+#### Question 3: Creating new dataframe with variables of interest
+
+```{r}
+exercise_df <- food_survey_respond_df %>% 
+  select ("exercise","nutritional_check","veggies_day","fruit_day") %>% 
+  drop_na()
+
+glimpse(exercise_df)
+```
+
+#### Question 3: Replace Integer respond for exercise with String
+
+```{r}
+exercise_df <- exercise_df %>% 
+  mutate(exercise_new = case_match(
+    exercise,
+    1 ~ "Everyday",
+    2 ~ "2-3 times a week",
+    3 ~ "Once a week",
+    4 ~ "Sometimes",
+    5 ~ "Never"
+  )
+  ) 
+
+exercise_df %>% 
+  count(exercise, exercise_new)
+
+```
+
+#### Question 3: Replace Integer respond for Nutritional check with String
+
+```{r}
+exercise_df <- exercise_df %>% 
+  mutate(nutritional_check_new = case_match(
+    nutritional_check,
+    1 ~ "Never",
+    2 ~ "On certain products",
+    3 ~ "Very rarely",
+    4 ~ "On most products",
+    5 ~ "On everything"
+  )
+  )
+
+exercise_df %>% 
+  count(nutritional_check,nutritional_check_new)
+```
+
+#### Question 3: Replace Integer respond for veggie consumption with String
+
+```{r}
+exercise_df <- rename(exercise_df,"veggie_consumption" = "veggies_day") %>%
+  mutate(veggie_consumption_new = case_match(
+    veggie_consumption,
+    1 ~ "Very unlikely",
+    2 ~ "Unlikely",
+    3 ~ "Neutral",
+    4 ~ "Likely",
+    5 ~ "Very likely"
+  )
+  )
+
+exercise_df %>% 
+  count(veggie_consumption, veggie_consumption_new)
+```
+
+#### Question 3: Replace Integer respond for fruit consumption with String
+
+```{r}
+exercise_df <- rename(exercise_df,"fruit_consumption"= "fruit_day") %>% 
+  mutate(fruit_consumption_new = case_match(
+    fruit_consumption,
+    1 ~ "Very unlikely",
+    2 ~ "Unlikely",
+    3 ~ "Neutral",
+    4 ~ "Likely",
+    5 ~ "Very likely"
+  )
+  )
+
+exercise_df %>% 
+  count(fruit_consumption, fruit_consumption_new)
+```
+
+## Data Vizualization
+
+#### Question 1:Does exercising regularly affects weight of an individual?
+Female Students:
+```{r}
+#filter Female:
+library(ggplot2)
+library(here)
+exercise_levels <- c("Everyday", "2-3 times a week","Once a week")
+weight_female <- weight_df %>% 
+  filter(Gender_new == "Female")
+ggplot(data=weight_female)+
+  geom_bar(mapping= aes(x= factor(exercise_new,exercise_levels), fill=weight_range))+ labs(title="Exercise VS Weight (lbs)", x= "Exercise", y= "Frequency", subtitle= "Female")
+
+ggsave(here("Figures","Exercise VS Weight- Female.png"))
+```
+Male students:
+```{r}
+#filter Male:
+weight_male <- weight_df %>% 
+  filter(Gender_new == "Male")
+ggplot(data=weight_male)+
+  geom_bar(mapping= aes(x=factor(exercise_new,exercise_levels), fill=weight_range))+ labs(title="Exercise VS Weight (lbs)", x= "Exercise", y= "Frequency", subtitle= "Male")
+ggsave(here("Figures","Exercise VS Weight- Male.png"))
+```
+#### Question 2: Eating out VS Employment status
+
+```{r}
+eating_out_levels <- c("Everyday","3-4 times","2-3 times","1-2 times","Never")
+ggplot(data=frequency_df)+
+  geom_bar(mapping=aes (x=factor(eating_out_new,eating_out_levels), fill=employment_new)) + labs(title = "Frequency of Eating Out VS Employment", x ="Eating out", y="Frequency") + theme(axis.text.x = element_text(angle = 45))
+
+ggsave(here("Figures","Eating out VS Employment.png"))
+```
+#### Question 2: Eating out VS Income
+
+```{r}
+ggplot(data=frequency_df)+
+  geom_bar(mapping=aes (x=factor(eating_out_new,eating_out_levels), fill=income_range)) + labs(title = "Frequency of Eating Out VS Income", x ="Eating out", y="Frequency") + theme(axis.text.x = element_text(angle = 45))
+
+ggsave(here("Figures","Eating out VS Income.png"))
+```
+#### Question 2: Eating out VS Living on or off campus
+
+```{r}
+ggplot(data=frequency_df)+
+  geom_bar(mapping=aes (x=factor(eating_out_new,eating_out_levels), fill=living_on_off_campus)) + labs(title = "Frequency of Eating Out VS Living on or \noff Campus", x ="Eating out", y="Frequency") + theme(axis.text.x = element_text(angle = 45))
+ggsave(here("Figures","Eating out VSLiving on or off campus.png"))
+```
+#### Question 3: Exercise VS Nutritional check
+
+```{r}
+nutri_levels <- c("Never","Very rarely","On certain products", "On most products", "On everything")
+
+ggplot(data=exercise_df)+
+  geom_bar(mapping=aes(x= factor(nutritional_check_new, nutri_levels),fill= exercise_new)) + labs(title="Exercise VS Nutritional checks", x= "Nutritional checks", y="Frequency") + theme(axis.text.x = element_text(angle = 45))
+
+ggsave(here("Figures","Exercise VS Nutritional checks.png"))
+
+```
+#### Question 3: Exercise VS Veggie consumption
+
+```{r}
+Veggie_consumption_levels <- c("Very likely","Likely","Neutral","Unlikely","Very unlikely")
+ggplot(data=exercise_df)+ 
+  geom_bar(mapping=aes(x= factor(veggie_consumption_new,Veggie_consumption_levels),fill=exercise_new)) + labs(title="Exercise VS Veggie consumption", x= "Veggie consumption", y="Frequency") + theme(axis.text.x = element_text(angle = 45))
+
+ggsave(here("Figures","Exercise VS Veggie consumption.png"))
+```
+
+
+#### Question 3: Exercise VS Fruit consumption
+
+```{r}
+Fruit_consumption_levels <- c("Very likely","Likely","Neutral","Unlikely","Very unlikely")
+ggplot(data=exercise_df)+
+  geom_bar(mapping=aes(fill=exercise_new,x=factor(fruit_consumption_new,Fruit_consumption_levels))) +
+  labs(title="Exercise VS Fruit consumption", x= "Fruit consumption", y="Frequency") + theme(axis.text.x = element_text(angle = 45))
+
+ggsave(here("Figures","Exercise VS Fruit consumption.png"))
+```
+
+## Basic Statistic test
+
+#### Question 1: Does exercising regularly affects weight of an individual?
+Test of independence using Fisher's extract test. alpha value = 0.05
+H0: exercise frequency and weight among female college students are independent
+Since p = 0.6322 which is more than alpha value (0.05), we accept H0 and can conclude that exercise frequency does not affect weight of female college students in our study.
+```{r}
+weight_female %>% 
+  select("exercise_new","weight_range") %>% 
+  table() %>% 
+  fisher.test()
+```
+
+Since p = 0.7479 which is more than alpha value (0.05), we accept H0 and can conclude that exercise frequency does not affect weight of male college students in our study.
+```{r}
+weight_male %>% 
+  select("exercise_new","weight_range") %>% 
+  table() %>% 
+  fisher.test()
+```
+
+#### Question 2: Does factors such as: Employment, Income, and Living on or off campus affect the frequency of eating out for college students?
+Test of independence using Fisher's extract test. alpha value = 0.05
+H0: Factor(employment/income/living on or off campus) has no statistical influence to the frequency of college student eating out.
+Since p = 0.6443 which is more than alpha value (0.05), we accept H0 and can conclude that employment status of a college student does not affect the frequency of eating out.
+
+Employment:
+```{r}
+frequency_df %>% 
+  select("employment_new","eating_out_new") %>% 
+  table() %>% 
+  fisher.test()
+```
+
+Income:
+Since p = 0.6681 which is more than alpha value (0.05), we accept H0 and can conclude that income of a college student does not affect the frequency of eating out.
+```{r}
+frequency_df %>% 
+  select("income_range","eating_out_new") %>% 
+  table() %>% 
+  fisher.test(input_table, workspace = 1e7) #increase workspace due to error message
+```
+
+Living on and off campus:
+Since p = 0.2007 which is more than alpha value (0.05), we accept H0 and can conclude that living on or off campus does not affect the frequency of eating out.
+```{r}
+frequency_df %>% 
+  select("living_on_off_campus","eating_out_new") %>% 
+  table() %>% 
+  fisher.test() 
+```
+
+#### Question 3: Does students who exercise regularly more likely to make better food choices?
+Test of independence using Fisher's extract test. alpha value = 0.05
+H0: Students who exercise regularly are more likely to make better food choices.
+Since p = 0.1133 which is more than alpha value (0.05), we accept H0 and can conclude that students who exercise regularly does not check nutritional labels of food more regularly.
+```{r}
+exercise_df %>% 
+  select("nutritional_check_new","exercise_new") %>% 
+  table() %>% 
+  fisher.test()
+
+```
+Since p = 0.1485 which is more than alpha value (0.05), we accept H0 and can conclude that students who exercise regularly does always consumer more vegetables.
+```{r}
+exercise_df %>% 
+  select("veggie_consumption_new","exercise_new") %>% 
+  table() %>% 
+  fisher.test()
+```
+Since p = 0.03453 which is less than alpha value (0.05), we reject H0 and can conclude that students who exercise regularly does consumer more fruits.
+```{r}
+exercise_df %>% 
+  select("fruit_consumption_new","exercise_new") %>% 
+  table() %>% 
+  fisher.test()
+```
+
