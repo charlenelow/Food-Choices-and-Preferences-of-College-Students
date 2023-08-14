@@ -18,6 +18,6 @@ The questions that i would like to answer from this analysis are as follow:
 Please refer to [Github document](https://github.com/charlenelow/Food-Choices-and-Preferences-of-College-Students/blob/main/V2_Food_Choices_Preference_of_College_Students%20.md) or download [HTML](https://github.com/charlenelow/Food-Choices-and-Preferences-of-College-Students/blob/main/html/V2_Food_Choices_Preference_of_College_Students%20.html) to follow along my analysis. 
 
 
-Please check out to me to give me any feedback and comments you have regarding my work!!
+Please reach out to me to give me any feedback and comments you have regarding my work!!
 
 
