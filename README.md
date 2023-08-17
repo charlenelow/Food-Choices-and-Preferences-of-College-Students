@@ -19,5 +19,6 @@ Please refer to [Github document](https://github.com/charlenelow/Food-Choices-an
 
 
 Please reach out to me to give me any feedback and comments you have regarding my work!!
+Email Address: charlenelowfy@gmail.com
 
 
